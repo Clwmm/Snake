@@ -47,6 +47,10 @@ void Entity::update(float deltaTime, sf::RenderWindow& window)
         contains = false;
 }
 
+void Entity::update(float deltaTime)
+{
+}
+
 void Entity::draw(sf::RenderWindow& window)
 {
     this->sprite.setPosition(this->position.x, this->position.y);

@@ -6,15 +6,26 @@ int main()
     sf::RenderWindow window(sf::VideoMode(700, 700), "Snake", sf::Style::Close);
     sf::View view(sf::Vector2f(0, 0), sf::Vector2f(LEVEL_SIZE * BOX_SIZE, LEVEL_SIZE * BOX_SIZE));
     window.setView(view);
+    window.setFramerateLimit(60);
+
+    sf::Clock clock;
+    float deltaTime = 0;
        
     std::queue<Movement>* queue = new std::queue<Movement>;
 
     Map* map = Map::mapGenerator();
-    map->getVec()->push_back(new SnakeHead(sf::Vector2i(0, 0), Type::snake_head, queue));
+
+    SnakeBody* body = new SnakeBody(sf::Vector2i(-3*BOX_SIZE, 0), Type::snake_body, map->getVec());
+    map->getVec()->push_back(body);
+    SnakeHead* head = new SnakeHead(sf::Vector2i(-2*BOX_SIZE, 0), Type::snake_head, body, queue);
+    map->getVec()->push_back(head);
     
     sf::Event event;
     while (window.isOpen())
     {
+        // DELTA TIME
+        deltaTime = clock.restart().asSeconds();
+
         // WINDOW EVENTS
         while (window.pollEvent(event))
         {
@@ -50,37 +61,9 @@ int main()
             }
         }
 
-        // MATH
+        // UPDATE
+        head->update(deltaTime);
 
-        for (auto x : *map->getVec())
-        {
-            x->update(0, window);
-        }
-
-        if (queue->size() > 0)
-        {
-            switch (queue->front())
-            {
-            case Movement::up:
-                std::cout << "UP" << std::endl;
-                break;
-            case Movement::down:
-                std::cout << "DOWN" << std::endl;
-                break;
-            case Movement::right:
-                std::cout << "RIGHT" << std::endl;
-                break;
-            case Movement::left:
-                std::cout << "LEFT" << std::endl;
-                break;
-            default:
-                break;
-            }
-            queue->pop();
-        }
-
-        
-        
 
         // RENDER
         window.clear(sf::Color(18, 33, 43)); // Color background

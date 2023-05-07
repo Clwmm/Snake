@@ -21,9 +21,12 @@ void SnakeBody::updateBody(sf::Vector2i position, bool fruitEaten)
 		backPointer->updateBody(actualPos, fruitEaten);
 		return;
 	}
-
-	backPointer = new SnakeBody(actualPos, Type::snake_body, tmpvec);
-	tmpvec->push_back(backPointer);
+	
+	if (fruitEaten)
+	{
+		backPointer = new SnakeBody(actualPos, Type::snake_body, tmpvec);
+		tmpvec->push_back(backPointer);
+	}
 }
 
 SnakeBody::~SnakeBody()

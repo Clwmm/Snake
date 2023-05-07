@@ -11,6 +11,7 @@ public:
 	virtual Type getType();
 	virtual sf::Vector2i getPos();
 	virtual void update(float deltaTime, sf::RenderWindow& window);
+	virtual void update(float deltaTime);
 	virtual void draw(sf::RenderWindow& window);
 	virtual ~Entity();
 
