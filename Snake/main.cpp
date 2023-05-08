@@ -14,11 +14,15 @@ int main()
     std::queue<Movement>* queue = new std::queue<Movement>;
 
     Map* map = Map::mapGenerator();
+    bool* endPointer = new bool(false);
 
     SnakeBody* body = new SnakeBody(sf::Vector2i(-3*BOX_SIZE, 0), Type::snake_body, map->getVec());
     map->getVec()->push_back(body);
-    SnakeHead* head = new SnakeHead(sf::Vector2i(-2*BOX_SIZE, 0), Type::snake_head, body, queue);
+    SnakeHead* head = new SnakeHead(sf::Vector2i(-2*BOX_SIZE, 0), Type::snake_head, body, queue, map->getVec(), endPointer);
     map->getVec()->push_back(head);
+
+    Entity* fruit = new Entity(sf::Vector2i(3 * BOX_SIZE, 0), Type::fruit);
+    map->getVec()->push_back(fruit);
     
     sf::Event event;
     while (window.isOpen())
@@ -64,6 +68,11 @@ int main()
         // UPDATE
         head->update(deltaTime);
 
+        if (*endPointer)
+        {
+            window.close();
+            break;
+        }
 
         // RENDER
         window.clear(sf::Color(18, 33, 43)); // Color background
@@ -73,6 +82,7 @@ int main()
     }
 
     delete map;
+    delete endPointer;
 
     return 0;
 }

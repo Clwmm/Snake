@@ -10,6 +10,7 @@ Entity::Entity(sf::Vector2i position, Type type)
     //sprite.setPointCount(4);
     sprite.setOrigin(sf::Vector2f(BOX_SIZE/2, BOX_SIZE/2));
     //sprite.setRotation(45);
+    sprite.setFillColor(sf::Color::Yellow);
 }
 
 Entity::Entity()
@@ -47,7 +48,7 @@ void Entity::update(float deltaTime, sf::RenderWindow& window)
         contains = false;
 }
 
-void Entity::update(float deltaTime)
+void Entity::update(const float& deltaTime)
 {
 }
 
@@ -59,4 +60,31 @@ void Entity::draw(sf::RenderWindow& window)
 
 Entity::~Entity()
 {
+}
+
+ColisionType Entity::colision(Entity* entity, std::vector<Entity*>* vec)
+{
+    sf::Vector2i position = entity->position;
+    for (auto x : *vec)
+    {
+        if (x != entity)
+            if (position == x->position)
+            {
+                switch (x->type)
+                {
+                case Type::wall:
+                    return ColisionType::wall;
+
+                case Type::fruit:
+                    return ColisionType::fruit;
+
+                case Type::snake_body:
+                    return ColisionType::wall;
+
+                default:
+                    break;
+                }
+            }
+    }
+    return ColisionType::none;
 }

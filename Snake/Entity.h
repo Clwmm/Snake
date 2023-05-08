@@ -2,6 +2,7 @@
 #include "defines.h"
 
 enum class Type{wall, empty, snake_head, snake_body, fruit};
+enum class ColisionType { wall, fruit, none };
 
 class Entity
 {
@@ -11,10 +12,11 @@ public:
 	virtual Type getType();
 	virtual sf::Vector2i getPos();
 	virtual void update(float deltaTime, sf::RenderWindow& window);
-	virtual void update(float deltaTime);
+	virtual void update(const float& deltaTime);
 	virtual void draw(sf::RenderWindow& window);
 	virtual ~Entity();
 
+	static ColisionType colision(Entity* entity, std::vector<Entity*>* vec);
 
 protected:
 	sf::Vector2i position = { 0, 0 };

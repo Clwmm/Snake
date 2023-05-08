@@ -17,18 +17,20 @@ create queue in game class and cast pointer to constructor of SnakeHead
 class SnakeHead : public Entity
 {
 public:
-	SnakeHead(sf::Vector2i, Type, SnakeBody*, std::queue<Movement>*);
-	void update(float deltaTime);
+	SnakeHead(const sf::Vector2i&, const Type&, SnakeBody*, std::queue<Movement>*, std::vector<Entity*>*, bool*);
+	void update(const float& deltaTime);
 	~SnakeHead();
 
 	SnakeHead& operator=(const Movement& m);
 private:
 	SnakeBody* backPointer = nullptr;
 	std::queue<Movement>* queue = nullptr;
+	std::vector<Entity*>* vec = nullptr;
 	void move();
 
 	Movement movement = Movement::none;
 	float time = 0;
 	bool startMovement = false;
+	bool* endPointer = nullptr;
 };
 
