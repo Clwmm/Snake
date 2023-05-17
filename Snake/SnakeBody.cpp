@@ -1,14 +1,23 @@
 #include "SnakeBody.h"
 
-SnakeBody::SnakeBody(const sf::Vector2i& position, const Type& type, std::vector<Entity*>* vec)
+SnakeBody::SnakeBody(const sf::Vector2i& position, std::vector<Entity*>* vec)
 {
-	this->type = type;
+	this->type = Entity::snake_body;
 	this->position = position;
 	this->vec = vec;
 
 	sprite.setSize(sf::Vector2f(BOX_SIZE - 2, BOX_SIZE - 2));
 	sprite.setOrigin(sf::Vector2f((BOX_SIZE - 2) / 2, (BOX_SIZE - 2) / 2));
 	sprite.setFillColor(sf::Color::White);
+}
+
+SnakeBody::SnakeBody(const SnakeBody& sb)
+{
+	this->position = sb.position;
+	this->type = sb.type;
+	this->sprite = sb.sprite;
+	this->backPointer = sb.backPointer;
+	this->vec = sb.vec;
 }
 
 void SnakeBody::updateBody(const sf::Vector2i& position, const bool& fruitEaten)
@@ -24,7 +33,8 @@ void SnakeBody::updateBody(const sf::Vector2i& position, const bool& fruitEaten)
 	
 	if (fruitEaten)
 	{
-		backPointer = new SnakeBody(actualPos, Type::snake_body, vec);
+		backPointer = new SnakeBody(*this);
+		backPointer->position = actualPos;
 		vec->push_back(backPointer);
 	}
 }

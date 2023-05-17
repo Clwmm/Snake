@@ -1,13 +1,22 @@
-#pragma once
+#ifndef SNAKEBODY_H
+#define SNAKEBODY_H
+
 #include "Entity.h"
-class SnakeBody : public Entity 
+
+// DEKLARACJA KLASY, z DZIEDZICZENIEM OD CLASY ENTITY
+class SnakeBody : virtual public Entity
 {
 public:
-	SnakeBody(const sf::Vector2i&, const Type&, std::vector<Entity*>*);
+	// DEKLARACJA KONSTRUKTORA
+	SnakeBody(const sf::Vector2i&, std::vector<Entity*>*);
+	// DEKLARACJA KONSTRUKTORA KOPIUJACEGO
+	SnakeBody(const SnakeBody& sb);
 	void updateBody(const sf::Vector2i&, const bool&);
+	// DEKLARACJA DESTRUKTORA
 	~SnakeBody();
 private:
 	SnakeBody* backPointer = nullptr;
 	std::vector<Entity*>* vec = nullptr;
 };
 
+#endif // !SNAKEBODY_H

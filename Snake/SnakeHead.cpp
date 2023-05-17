@@ -1,8 +1,8 @@
 #include "SnakeHead.h"
 
-SnakeHead::SnakeHead(const sf::Vector2i& position, const Type& type, SnakeBody* backPointer, std::queue<Movement>* queue, std::vector<Entity*>* vec, bool* endPointer)
+SnakeHead::SnakeHead(const sf::Vector2i& position, SnakeBody* backPointer, std::queue<Movement>* queue, std::vector<Entity*>* vec, bool* endPointer)
 {
-	this->type = type;
+	this->type = Entity::snake_head;
 	this->position = position;
     this->backPointer = backPointer;
 	this->queue = queue;
@@ -65,13 +65,8 @@ void SnakeHead::update(const float& deltaTime)
     }
 }
 
-SnakeHead::~SnakeHead()
-{
-}
-
 SnakeHead& SnakeHead::operator=(const Movement& m)
 {
-    // TODO: insert return statement here
     switch (m)
     {
     case Movement::up:
@@ -100,13 +95,13 @@ void SnakeHead::move()
     sf::Vector2i oldPosition = position;
     *this = movement;
 
-    switch (Entity::colision(this, vec))
+    switch (Functions::colision(this, vec))
     {
-    case ColisionType::wall:
+    case ColisionType::wall_c:
         *endPointer = true;
         return;
 
-    case ColisionType::fruit:
+    case ColisionType::fruit_c:
         backPointer->updateBody(oldPosition, true);
         break;
 
